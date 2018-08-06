@@ -38,6 +38,6 @@ To get started:
         
         
     - ghcnd-stations-cleansed.csv is the dataset used in this Tableau Dashboard | <a href='https://public.tableau.com/profile/nate.muth#!/vizhome/NOAADailyWeatherProject/GHCNStationMapDashboard'>Link</a>
-    <img src='https://github.com/nmuth87/noaa-daily-weather/blob/master/Images/ghcn_station_map_dashboard.PNG'>
+    ![alt text]('https://github.com/nmuth87/noaa-daily-weather/blob/master/Images/ghcn_station_map_dashboard.PNG')
     
 5. Open noaa-
