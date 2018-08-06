@@ -7,6 +7,7 @@ Welcome to the GitHub repository for the GHCN Project. Let's create things with 
 Technology Used:
 - GitHub | <a href="https://desktop.github.com/">Link</a>
 - Anaconda | <a href="https://conda.io/docs/download.html">Link</a><br>
+    <br>
     Includes:
     - Python
     - Jupyter Notebooks
