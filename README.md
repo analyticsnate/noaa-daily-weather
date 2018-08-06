@@ -36,8 +36,12 @@ To get started:
     - Files created from this code
         - ghcnd-stations-cleansed.csv
         
-        
     - ghcnd-stations-cleansed.csv is the dataset used in this Tableau Dashboard | <a href='https://public.tableau.com/profile/nate.muth#!/vizhome/NOAADailyWeatherProject/GHCNStationMapDashboard'>Link</a>
     ![alt text](https://github.com/nmuth87/noaa-daily-weather/blob/master/Images/ghcn_station_map_dashboard.PNG)
     
-5. Open noaa-
+5. Open noaa-daily-inventory-prep.ipynb and run all of its cells
+    - This preps data about the 'inventory' of data that each weather station contains
+    - We'll use this to make sure we're pulling data that actually exists
+    - Files created from this code
+        - ghcnd-inventory-cleansed.csv
+        - ghcnd-stations-inventory-cleansed.csv
