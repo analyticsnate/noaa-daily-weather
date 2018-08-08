@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+NOAA Daily FTP.ipynb
+NOAA Daily File to DataFrame.ipynb
+.dly
