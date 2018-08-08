@@ -45,3 +45,5 @@ To get started:
     - Files created from this code
         - ghcnd-inventory-cleansed.csv
         - ghcnd-stations-inventory-cleansed.csv
+
+6. From this point, we can start doing scenarios!
