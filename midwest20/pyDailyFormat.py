@@ -41,7 +41,7 @@ def dailyFile(f):
     df['WeatherDate'] = df.apply(getDate,axis=1)
 
     # remove date element columns
-    df.drop(['YEAR','MONTH','DAY'],inplace=True)
+    df.drop(['YEAR','MONTH','DAY'],axis=1,inplace=True)
 
     return df
 

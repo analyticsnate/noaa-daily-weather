@@ -46,4 +46,7 @@ To get started:
         - ghcnd-inventory-cleansed.csv
         - ghcnd-stations-inventory-cleansed.csv
 
-6. From this point, we can start doing scenarios!
+6. Also included in this repo is a US cities file from https://simplemaps.com/data/us-cities
+    - uscities1.4.csv
+
+7. From this point, we can start doing scenarios!
