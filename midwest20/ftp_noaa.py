@@ -1,18 +1,15 @@
-from ftplib import FTP
-import pandas as pd
-import os
+from ftplib import FTPs
 
 class ftp_noaa:
 
-    def __init__(self,folder=''):
+    def __init__(self,folder='pub/data/ghcn/daily'):
         """
-NOAA FTP Wrapper
+        NOAA FTP Wrapper
 
-Params:
--------
-folder : str
-- folder to change directory
-- default is 'pub/data/ghcn/daily'
+        Params:
+        -------
+        folder : str
+        - folder to change directory
         """
         self.ftp = FTP('ftp.ncdc.noaa.gov')
         self.ftp.login()
@@ -20,12 +17,12 @@ folder : str
 
     def retrieveFile(self,fileName):
         """
-Copies file from NOAA FTP site to local directory
+        Copies file from NOAA FTP site to local directory
 
-Params:
--------
-fileName : str
-- name of file to be copied from NOAA FTP
+        Params:
+        -------
+        fileName : str
+        - name of file to be copied from NOAA FTP
         """
         localFile = open((fileName), 'wb')
         self.ftp.retrbinary('RETR {}'.format(fileName),localFile.write,8*102)
