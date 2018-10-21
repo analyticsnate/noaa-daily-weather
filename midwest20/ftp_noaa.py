@@ -1,4 +1,4 @@
-from ftplib import FTPs
+from ftplib import FTP
 
 class ftp_noaa:
 
