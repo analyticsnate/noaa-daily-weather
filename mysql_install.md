@@ -11,3 +11,13 @@ Configure MySQL Server as a Windows Service<br>
 Windows Service Name: MySQL 80<br>
 Start the MySQL Server at System Startup<br>
 Standard System Account<br>
+
+
+CREATE TABLE `nest_log` (
+  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Mode` varchar(10) DEFAULT NULL,
+  `State` varchar(20) DEFAULT NULL,
+  `Temp` decimal(6,1) DEFAULT NULL,
+  `Target` decimal(6,1) DEFAULT NULL,
+  `Humidity` decimal(6,1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
