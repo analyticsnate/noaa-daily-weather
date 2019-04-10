@@ -1,5 +1,4 @@
-# README
----- GLOBAL HISTORICAL CLIMATOLOGY NETWORK (GHCN) PROJECT
+# GLOBAL HISTORICAL CLIMATOLOGY NETWORK (GHCN) PROJECT
 by: Nate Muth (Omaha, NE)
 
 Welcome to the GitHub repository for the GHCN Project. Let's create things with data!
