@@ -10,7 +10,7 @@ class DailyFile:
     def __init__(self, station_id):
         self.ftp = noaa_ftp.NoaaFTP('pub/data/ghcn/daily/all')
         print(f'Retrieving {station_id}.dly')
-        self.ftp.retrieve_file(f'{station_id}.dly')
+        self.ftp.retrieve_file(f'{station_id}.dly', 'data/')
         self.ftp.quit()
 
         # add VALUE(n), MFLAG(n), QFLAG(n), and SFLAG(n) for each day of the month
@@ -31,7 +31,7 @@ class DailyFile:
 
         # build dataframe
         self.df_raw = pd.read_fwf(
-                            f'{station_id}.dly'
+                            f'data/{station_id}.dly'
                             ,header=None
                             ,widths=self.widths_list
                             ,names=self.cols_list
@@ -84,12 +84,12 @@ class Stations:
 
         for f in ['ghcnd-stations.txt', 'ghcnd-states.txt', 'ghcnd-countries.txt']:
             print(f'Retrieving {f}')
-            self.ftp.retrieve_file(f)
+            self.ftp.retrieve_file(f, 'data/')
         self.ftp.quit()
 
         # TODO: add error handling for reading the file
         print('Reading ghcnd-stations.txt')
-        self.df = pd.read_fwf('ghcnd-stations.txt', header=None, delimiter=' '
+        self.df = pd.read_fwf('data/ghcnd-stations.txt', header=None, delimiter=' '
                      , widths=[12,9,10,7,3,31,4,4,6]
                      , names=['StationID', 'Latitude', 'Longitude', 'Elevation'
                             ,'State', 'StationName', 'GSN_Flag', 'HCN_CRN_Flag'
@@ -97,11 +97,11 @@ class Stations:
                      , dtypes={'WMO_ID':object},index_col='StationID')
 
         print('Reading ghcnd-countries.txt')
-        self.countries = pd.read_fwf('ghcnd-countries.txt', header=None,
+        self.countries = pd.read_fwf('data/ghcnd-countries.txt', header=None,
                             delimiter=' ', names=['CountryCode','CountryName'])
 
         print('Reading ghcnd-states.txt')
-        self.states = pd.read_fwf('ghcnd-states.txt', header=None,
+        self.states = pd.read_fwf('data/ghcnd-states.txt', header=None,
                             delimiter=' ', names=['State','StateName'])
 
         # --apply dataprep operations here
@@ -131,12 +131,12 @@ class Inventory:
 
         self.ftp = noaa_ftp.NoaaFTP()
         print('Retrieving ghcnd-inventory.txt')
-        self.ftp.retrieve_file('ghcnd-inventory.txt')
+        self.ftp.retrieve_file('ghcnd-inventory.txt', 'data/')
         self.ftp.quit()
         self.df_stations = Stations.df
 
         print('Reading ghcnd-inventory.txt')
-        self.df_inventory = pd.read_fwf('ghcnd-inventory.txt', header=None, delimiter=' '
+        self.df_inventory = pd.read_fwf('data/ghcnd-inventory.txt', header=None, delimiter=' '
                          , widths=[12,9,10,5,5,5]
                          , names=['StationID', 'Latitude', 'Longitude', 'Element',
                                  'FirstYear', 'LastYear'])
@@ -161,13 +161,13 @@ class Inventory:
 
     def save_datasets(self):
         print('Saving ghcnd-inventory-cleansed.csv')
-        self.df_inventory.to_csv('ghcnd-inventory-cleansed.csv', sep='\t')
+        self.df_inventory.to_csv('data/ghcnd-inventory-cleansed.csv', sep='\t')
 
         print('Saving ghcnd-stations-cleansed.csv')
-        self.df_stations.to_csv('ghcnd-stations-cleansed.csv', sep='\t')
+        self.df_stations.to_csv('data/ghcnd-stations-cleansed.csv', sep='\t')
 
         print('Saving ghcnd-stations-inventory-cleansed.csv')
-        self.df.to_csv('ghcnd-stations-inventory-cleansed.csv',sep='\t')
+        self.df.to_csv('data/ghcnd-stations-inventory-cleansed.csv',sep='\t')
 
 
 

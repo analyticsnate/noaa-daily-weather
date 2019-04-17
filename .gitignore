@@ -105,3 +105,4 @@ venv.bak/
 NOAA Daily FTP.ipynb
 NOAA Daily File to DataFrame.ipynb
 .dly
+data/*

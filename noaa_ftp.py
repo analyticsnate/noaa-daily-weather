@@ -19,8 +19,11 @@ class NoaaFTP():
         Copies file from NOAA FTP site to local directory
         Params:
         -------
-        fileName : str
+        file_name : str
         - name of file to be copied from NOAA FTP
+
+        folder_name : str
+        - folder of file to be copied from NOAA FTP
         """
         if folder_name is not None:
             local_file = open((folder_name + file_name), 'wb')
