@@ -51,6 +51,12 @@ class DailyFile:
         # 1. change ID column name to StationID
         self.df = self.df.rename(columns={'ID': 'StationID'})
 
+        # 2. change datatype of value to double
+        self.df['VALUE'] = self.df['VALUE'].astype('float')
+
+        # 3. filter out -9999 values
+        self.df = self.df[ self.df['VALUE']>-9999 ]
+
         print('Success!')
 
     def mm_to_inches(self, row):
@@ -59,6 +65,10 @@ class DailyFile:
         because murica is "special"
         """
         return row['VALUE'] / 25.4
+
+    def c_to_f(self, row):
+        # (0°C × 9/5) + 32 = 32°F
+        return ( ((((row['VALUE']/10) * 9) / 5) + 32))
 
     def winter_season(self, row):
         """
@@ -69,8 +79,6 @@ class DailyFile:
             return str(row['YEAR'] - 1)[2:4] + '-' + str(row['YEAR'])[2:4]
         else:
             return str(row['YEAR'])[2:4] + '-' + str(row['YEAR'] + 1)[2:4]
-
-
 
 class Stations:
     """
@@ -143,7 +151,8 @@ class Inventory:
 
         print('Merging with Stations dataset')
         self.df = self.df_inventory.filter(['StationID', 'Element', 'FirstYear', 'LastYear'])
-        self.df = pd.merge(self.df_stations, self.df, how='left').set_index(['StationID','Element'])
+        self.df = pd.merge(self.df, self.df_stations, how='left', left_on='StationID', right_index=True).reset_index()
+        # self.df = self.df.drop('index')
         self.df['YearCount'] = self.df.apply(self.calc_year_count, axis=1)
 
         print('Success!')
