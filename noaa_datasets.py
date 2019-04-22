@@ -1,8 +1,25 @@
+# noaa_datasets.py
+#
+# NOAA Datasets Python Library
+# This library contains classes and methods for interacting with datasets from the
+# NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION (NOAA) GLOBAL HISTORICAL CLIMATOLOGY NETWORK (GHCN).
+#
+# The GHCN project captures weather measurements from thousands of weather stations 
+# thoughout the world, then saves the data in a standardized format for analysis.
+#
+# This standardized format is good for storage size, but not human interaction, which is
+# where this python library helps. The classes and methods in this library automate downloading
+# GHCN data from their public FTP, then formats the data so that it's easier to analyze in tools 
+# like Tableau and Power BI.
+# 
+# Link: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/
+
 import pandas as pd 
 import noaa_ftp
 
 class DailyFile:
     """
+    TODO: add docstring
     """
     cols_list = ['ID','YEAR','MONTH','ELEMENT']
     widths_list = [11,4,2,4]
@@ -82,21 +99,29 @@ class DailyFile:
 
 class Stations:
     """
-    Pulls down the Stations dataset from the NOAA FTP site
-    Merges with states and countries lookup tables for enriched data
+    Pulls down the Stations dataset from the NOAA FTP site, and
+    normalizes states and countries data
+
+    Params:
+    -------
+    debug : boolean
+    Set to True to show debug print messages while using this class
     """
 
-    def __init__(self):
+    def __init__(self, debug=False):
 
         self.ftp = noaa_ftp.NoaaFTP()
+        self.debug = debug
 
         for f in ['ghcnd-stations.txt', 'ghcnd-states.txt', 'ghcnd-countries.txt']:
-            print(f'Retrieving {f}')
+            if self.debug:
+                print(f'Retrieving {f}')
             self.ftp.retrieve_file(f, 'data/')
         self.ftp.quit()
 
         # TODO: add error handling for reading the file
-        print('Reading ghcnd-stations.txt')
+        if self.debug:
+            print('Reading ghcnd-stations.txt')
         self.df = pd.read_fwf('data/ghcnd-stations.txt', header=None, delimiter=' '
                      , widths=[12,9,10,7,3,31,4,4,6]
                      , names=['StationID', 'Latitude', 'Longitude', 'Elevation'
@@ -104,16 +129,19 @@ class Stations:
                             ,'WMO_ID']
                      , dtypes={'WMO_ID':object},index_col='StationID')
 
-        print('Reading ghcnd-countries.txt')
+        if self.debug:
+            print('Reading ghcnd-countries.txt')
         self.countries = pd.read_fwf('data/ghcnd-countries.txt', header=None,
                             delimiter=' ', names=['CountryCode','CountryName'])
 
-        print('Reading ghcnd-states.txt')
+        if self.debug:
+            print('Reading ghcnd-states.txt')
         self.states = pd.read_fwf('data/ghcnd-states.txt', header=None,
                             delimiter=' ', names=['State','StateName'])
 
         # --apply dataprep operations here
-        print('Applying data prep operations to enrich dataset')
+        if self.debug:
+            print('Applying data prep operations to enrich dataset')
 
         # 1. slice country code from the StationID value
         self.df['CountryCode'] = self.df.apply(self.slice_country_code, axis=1)
@@ -124,6 +152,7 @@ class Stations:
         # 3. merge states dataset next
         self.df = self.df.reset_index().merge(self.states, on='State', how='left').set_index('StationID')
 
+        # always display this
         print('Success!')
 
     def slice_country_code(self, row):
@@ -134,27 +163,50 @@ class Stations:
         return row.name[:2]
 
 class Inventory:
+    """
+    Pulls down the Stations dataset from the NOAA FTP site, and
+    normalizes states and countries data
 
-    def __init__(self, Stations):
+    Params:
+    -------
+    Stations : Stations object
+    TODO: add description of this
+
+    debug : boolean
+    Set to True to show debug print messages while using this class
+
+    Example:
+    --------
+    > import noaa_datasets
+    > stations_dataset = noaa_datasets.Stations()
+    > inventory_dataset = noaa_datasets.Inventory(stations_dataset)
+    """
+
+    def __init__(self, Stations, debug=False):
 
         self.ftp = noaa_ftp.NoaaFTP()
-        print('Retrieving ghcnd-inventory.txt')
+        self.debug = debug
+        if self.debug:
+            print('Retrieving ghcnd-inventory.txt')
         self.ftp.retrieve_file('ghcnd-inventory.txt', 'data/')
         self.ftp.quit()
         self.df_stations = Stations.df
 
-        print('Reading ghcnd-inventory.txt')
+        if self.debug:
+            print('Reading ghcnd-inventory.txt')
         self.df_inventory = pd.read_fwf('data/ghcnd-inventory.txt', header=None, delimiter=' '
                          , widths=[12,9,10,5,5,5]
                          , names=['StationID', 'Latitude', 'Longitude', 'Element',
                                  'FirstYear', 'LastYear'])
 
-        print('Merging with Stations dataset')
+        if self.debug:
+            print('Merging with Stations dataset')
         self.df = self.df_inventory.filter(['StationID', 'Element', 'FirstYear', 'LastYear'])
         self.df = pd.merge(self.df, self.df_stations, how='left', left_on='StationID', right_index=True).reset_index()
         # self.df = self.df.drop('index')
         self.df['YearCount'] = self.df.apply(self.calc_year_count, axis=1)
 
+        # always print this
         print('Success!')
 
     def calc_year_count(self, row):
