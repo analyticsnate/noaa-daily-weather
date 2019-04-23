@@ -221,13 +221,16 @@ class Inventory:
         return row['LastYear'] - row['FirstYear']
 
     def save_datasets(self):
-        print('Saving ghcnd-inventory-cleansed.csv')
+        if self.debug:
+            print('Saving ghcnd-inventory-cleansed.csv')
         self.df_inventory.to_csv('data/ghcnd-inventory-cleansed.csv', sep='\t')
 
-        print('Saving ghcnd-stations-cleansed.csv')
+        if self.debug:
+            print('Saving ghcnd-stations-cleansed.csv')
         self.df_stations.to_csv('data/ghcnd-stations-cleansed.csv', sep='\t')
 
-        print('Saving ghcnd-stations-inventory-cleansed.csv')
+        if self.debug:
+            print('Saving ghcnd-stations-inventory-cleansed.csv')
         self.df.to_csv('data/ghcnd-stations-inventory-cleansed.csv',sep='\t')
 
 
