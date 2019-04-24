@@ -2,18 +2,9 @@
 by: Nate Muth (Omaha, NE)
 
 ### How to get started
-```
-# import the noaa_datasets library
-import noaa_datasets
-
-# load the stations dataset and show the first five rows
-stations_dataset = noaa_datasets.Stations()
-stations_dataset.df.head()
-
-# load the inventory dataset and show the first five rows
-inventory_dataset = noaa_datasets.Inventory(stations_dataset)
-inventory_dataset.df.head()
-```
+1. Clone this repository
+2. In the root folder, create a new Jupyter Notebook
+3. Follow along with the Tutorial Demo Notebook to learn how to use this code
 
 ### Example Projects
 1. Tutorial Demo
