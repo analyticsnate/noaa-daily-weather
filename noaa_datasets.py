@@ -24,7 +24,7 @@ class DailyFile:
     cols_list = ['ID','YEAR','MONTH','ELEMENT']
     widths_list = [11,4,2,4]
 
-    def __init__(self, station_id, data_folder='../data/'):
+    def __init__(self, station_id, data_folder='data/'):
         self.ftp = noaa_ftp.NoaaFTP('pub/data/ghcn/daily/all')
         print(f'Retrieving {station_id}.dly')
         self.ftp.retrieve_file(f'{station_id}.dly', data_folder)
@@ -111,7 +111,7 @@ class Stations:
     Set to True to show debug print messages while using this class
     """
 
-    def __init__(self, data_folder='../data/', debug=False):
+    def __init__(self, data_folder='data/', debug=False):
 
         self.ftp = noaa_ftp.NoaaFTP()
         self.debug = debug
@@ -185,7 +185,7 @@ class Inventory:
     > inventory_dataset = noaa_datasets.Inventory(stations_dataset)
     """
 
-    def __init__(self, Stations, data_folder='../data/', debug=False):
+    def __init__(self, Stations, data_folder='data/', debug=False):
 
         self.ftp = noaa_ftp.NoaaFTP()
         self.debug = debug

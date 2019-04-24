@@ -104,5 +104,7 @@ venv.bak/
 .mypy_cache/
 NOAA Daily FTP.ipynb
 NOAA Daily File to DataFrame.ipynb
-.dly
+*.dly
 NOAA Low Daily Temperatures Analysis.csv
+data/ghcnd-stations.txt
+data/ghcnd-inventory.txt
